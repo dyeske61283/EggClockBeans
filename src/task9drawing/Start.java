@@ -6,6 +6,12 @@
 
 package task9drawing;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import task9drawing.Controller.DrawingController;
+import task9drawing.Model.DrawingModel;
+import task9drawing.View.DrawingView;
+
 /**
  * Builder Class
  * @author kevin
@@ -14,7 +20,14 @@ public class Start
 {
   public Start()
   {
-
+      DrawingModel model = new DrawingModel();
+      DrawingView view = new DrawingView(model);
+      DrawingController controller = new DrawingController(view, model);
+      JFrame frm = new JFrame();
+      frm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+      frm.setContentPane(view);
+      frm.setSize(600, 800);
+      frm.setVisible(true);
   }
 
   /**
