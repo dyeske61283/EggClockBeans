@@ -23,10 +23,12 @@ public class Start
       DrawingModel model = new DrawingModel();
       DrawingView view = new DrawingView(model);
       DrawingController controller = new DrawingController(view, model);
+      controller.registerEvents();
       JFrame frm = new JFrame();
       frm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
       frm.setContentPane(view);
       frm.setSize(600, 800);
+      frm.setTitle("MyPaint");
       frm.setVisible(true);
   }
 

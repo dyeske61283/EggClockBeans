@@ -9,7 +9,6 @@ package task9drawing.Model;
 import Logger.OhmLogger;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,26 +18,26 @@ public class DrawingModel
 {
   private ArrayList<Figur> daten;
   private Figur neueFigur;
-  private static Logger lg;
+  private static OhmLogger lg;
   
   public DrawingModel()
   {
       daten = new ArrayList<>();
-      lg = OhmLogger.getLogger();
-      lg.info("Begin of logging in model");
+      lg = OhmLogger.getInstance();
+      lg.getLogger().info("Begin of logging in model");
   }
   
   public void addPoint(Point p)
   {
     neueFigur.addPoint(p);
-    lg.info("Added new point to new figure in model");
+    lg.getLogger().info("Added new point to new figure in model");
   }
   
   public void addFigure()
   {
     neueFigur = new Figur();
     daten.add(neueFigur);
-    lg.info("Added new figure to model");
+    lg.getLogger().info("Added new figure to model");
   }
   
   public ArrayList<Figur> getDaten()
@@ -49,5 +48,11 @@ public class DrawingModel
   public Figur getNeueFigur()
   {
     return neueFigur;
+  }
+  
+  public void resetFigure()
+  {
+    neueFigur = null;
+    lg.getLogger().info("Resetted figure to null");
   }
 }

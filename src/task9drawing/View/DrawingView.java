@@ -12,8 +12,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.util.logging.Logger;
 import javax.swing.JComponent;
 import task9drawing.Model.DrawingModel;
 import task9drawing.Model.Figur;
@@ -24,7 +24,7 @@ import task9drawing.Model.Figur;
  */
 public class DrawingView extends JComponent
 {
-  private static Logger lg;
+  private static OhmLogger lg;
   private DrawingModel model;
   private Rectangle2D.Double pixel;
   private Dimension eins;
@@ -35,13 +35,13 @@ public class DrawingView extends JComponent
     this.setBackground(Color.WHITE);
     pixel = new Rectangle2D.Double();
     eins = new Dimension(1, 1);
-    lg = OhmLogger.getLogger();
-    lg.info("Begin of logging in view");
+    lg = OhmLogger.getInstance();
+    lg.getLogger().info("Begin of logging in view");
   }
   
   public void paintComponent(Graphics g)
   {
-    lg.info("repaint");
+    lg.getLogger().info("repaint");
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D)g;
     this.drawAllPoints(g2);
@@ -58,12 +58,27 @@ public class DrawingView extends JComponent
 
   private void drawAllPoints(Graphics2D g2)
   {
+    double x1 = 0,y1 = 0, y2 = 0, x2 = 0;
+    Boolean first = false;
     for(Figur f:model.getDaten())
     {
       for(Point p:f.getDaten())
       {
-        pixel.setFrame(p, eins);
-        g2.draw(pixel);
+        if(! first)
+        {
+          x1 = p.getX();
+          y1 = p.getY();
+          first = true;
+        }
+        else
+        {
+          x2 = p.getX();
+          y2 = p.getY();
+          
+          g2.draw(new Line2D.Double(x1, y1, x2, y2));
+          x1 = x2;
+          y1 = y2;
+        }
       }
     }
   }

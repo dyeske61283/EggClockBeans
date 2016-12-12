@@ -22,8 +22,7 @@ public class OhmLogger {
     private static Logger lg;
     
     private OhmLogger() {
-        lg = Logger.getLogger("OhmLogger");
-        initLogger();
+        lg = null;
     }
     
   /**
@@ -45,6 +44,11 @@ public class OhmLogger {
    */
   public static Logger getLogger()
     {
+      if(lg == null)
+      {
+        lg = Logger.getLogger("OhmLogger");
+        initLogger();
+      }
         return lg;
     }
     
