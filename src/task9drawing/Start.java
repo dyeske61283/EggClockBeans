@@ -6,9 +6,11 @@
 
 package task9drawing;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import task9drawing.Controller.DrawingController;
+import task9drawing.Controller.DrawingWindow;
+import task9drawing.Controller.MenuController;
 import task9drawing.Model.DrawingModel;
 import task9drawing.View.DrawingView;
 
@@ -22,14 +24,12 @@ public class Start
   {
       DrawingModel model = new DrawingModel();
       DrawingView view = new DrawingView(model);
+      DrawingWindow window = new DrawingWindow(view);
       DrawingController controller = new DrawingController(view, model);
       controller.registerEvents();
-      JFrame frm = new JFrame();
-      frm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-      frm.setContentPane(view);
-      frm.setSize(600, 800);
-      frm.setTitle("MyPaint");
-      frm.setVisible(true);
+      MenuController pcontroller = new MenuController(window);
+      pcontroller.registerEvents();
+      window.setVisible(true);
   }
 
   /**
@@ -37,6 +37,23 @@ public class Start
    */
   public static void main(String[] args) 
   {
+        try {
+            // Set System L&F
+        UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName());
+    } 
+    catch (UnsupportedLookAndFeelException e) {
+       // handle exception
+    }
+    catch (ClassNotFoundException e) {
+       // handle exception
+    }
+    catch (InstantiationException e) {
+       // handle exception
+    }
+    catch (IllegalAccessException e) {
+       // handle exception
+    }
     new Start();
   }
 }

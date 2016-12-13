@@ -18,7 +18,8 @@ import task9drawing.View.DrawingView;
  *
  * @author kevin
  */
-public class DrawingController implements MouseMotionListener, MouseListener
+public class DrawingController implements MouseMotionListener, MouseListener 
+                                         
 {
   private DrawingView view;
   private DrawingModel model;
@@ -48,8 +49,12 @@ public class DrawingController implements MouseMotionListener, MouseListener
       model.addFigure();
     }
     Point p = me.getPoint();
+    Point p2 = model.getNeueFigur().getNeuerPunkt();
+    if(p2 != null)
+    {
+      view.drawPoint(p2,p);
+    }
     model.addPoint(p);
-    view.drawPoint(p);
     lg.getLogger().info("Mouse got dragged");
   }
 

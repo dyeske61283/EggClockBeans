@@ -8,6 +8,13 @@ package task9drawing.Model;
 
 import Logger.OhmLogger;
 import java.awt.Point;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -54,5 +61,23 @@ public class DrawingModel
   {
     neueFigur = null;
     lg.getLogger().info("Resetted figure to null");
+  }
+  
+  public void saveData(File f) throws FileNotFoundException, IOException
+  {
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
+    out.writeObject(daten);
+    lg.getLogger().info("Saved all data to file");
+    
+    out.close();
+  }
+  
+  public void readData(File f) throws FileNotFoundException, IOException, ClassNotFoundException
+  {
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(f));
+    daten = (ArrayList<Figur>) in.readObject();
+    lg.getLogger().info("Read file into data");
+    
+    in.close();
   }
 }
