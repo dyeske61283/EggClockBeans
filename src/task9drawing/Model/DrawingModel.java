@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.prefs.Preferences;
 
 /**
  *
@@ -26,10 +27,12 @@ public class DrawingModel
   private ArrayList<Figur> daten;
   private Figur neueFigur;
   private static OhmLogger lg;
+  private Preferences filePath;
   
   public DrawingModel()
   {
       daten = new ArrayList<>();
+      filePath = Preferences.userNodeForPackage(this.getClass());
       lg = OhmLogger.getInstance();
       lg.getLogger().info("Begin of logging in model");
   }
@@ -80,4 +83,16 @@ public class DrawingModel
     
     in.close();
   }
+
+  public String getFilePath()
+  {
+    return this.filePath.get("LAST_OUTPUT_DIR", "~"+ File.pathSeparator);
+  }
+
+  public void setFilePath(String filePath)
+  {
+    this.filePath.put("LAST_OUTPUT_DIR", filePath);
+  }
+  
+  
 }

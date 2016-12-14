@@ -7,13 +7,14 @@
 package task9drawing.Model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author kevin
  */
-public class Figur
+public class Figur implements Serializable
 {
   private ArrayList<Point> daten;
   private Point neuerPunkt;

@@ -6,12 +6,10 @@
 
 package task9drawing.Controller;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.swing.JOptionPane;
+import task9drawing.Model.DrawingModel;
 
 /**
  *
@@ -20,11 +18,14 @@ import javax.swing.JOptionPane;
 public class MenuController implements ActionListener
 {
   private DrawingWindow view;
+  private DrawingModel model;
   private CommandInvoker invoker;
   
-  public MenuController(DrawingWindow view)
+  public MenuController(DrawingWindow view, DrawingModel model)
   {
       this.view = view;
+      this.model = model;
+      this.invoker = new CommandInvoker();
   }
   
   public void registerEvents()
@@ -33,26 +34,18 @@ public class MenuController implements ActionListener
       view.getMiLoad().addActionListener(this);
       view.getMiSave().addActionListener(this);
   }
+  
+  public void registerCommands()
+  {
+    this.invoker.addCommand(view.getMiLoad(), new CommandLoad(model, view));
+    this.invoker.addCommand(view.getMiPrint(), new CommandPrint(model, view));
+    this.invoker.addCommand(view.getMiSave(), new CommandSave(model, view));
+  }
 
   @Override
   public void actionPerformed(ActionEvent e)
   {
-    if(e.getSource() == this.view.getMiPrint())
-    {
-      HashPrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-      PrinterJob pj = PrinterJob.getPrinterJob();
-      pj.setPrintable(this.view.getDrawingView());
-      try
-      {
-        if(pj.printDialog(aset))
-        {
-          pj.print(aset);
-        }
-      }
-      catch(PrinterException pe)
-      {
-        JOptionPane.showMessageDialog(this.view,pe);
-      }
-    }
+    Component key = (Component)e.getSource();
+    this.invoker.executeCommand(key);
   }
 }

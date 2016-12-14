@@ -6,6 +6,11 @@
 
 package task9drawing.Controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import task9drawing.Model.DrawingModel;
 
 /**
@@ -26,7 +31,36 @@ public class CommandSave implements CommandInterface
   @Override
   public void execute()
   {
-    
+    JFileChooser fcSave = new JFileChooser(this.model.getFilePath());
+    fcSave.setDialogTitle("Specify a file to save");
+    if(fcSave.showSaveDialog(this.view) == JFileChooser.APPROVE_OPTION)
+    {
+      File fileToSave = fcSave.getSelectedFile();
+      if(fileToSave.exists())
+      {
+        
+      }
+      else
+      {
+        try
+        {
+          fileToSave.createNewFile();
+        }
+        catch (IOException ex)
+        {
+          Logger.getLogger(CommandSave.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      }
+      try
+      {
+        this.model.saveData(fileToSave);
+      }
+      catch (IOException ex)
+      {
+        Logger.getLogger(CommandSave.class.getName()).log(Level.SEVERE, null, ex);
+      }
+      this.model.setFilePath(fileToSave.getAbsolutePath());
+    }
   }
   
   

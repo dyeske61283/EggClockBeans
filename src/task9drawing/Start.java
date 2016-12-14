@@ -27,8 +27,9 @@ public class Start
       DrawingWindow window = new DrawingWindow(view);
       DrawingController controller = new DrawingController(view, model);
       controller.registerEvents();
-      MenuController pcontroller = new MenuController(window);
+      MenuController pcontroller = new MenuController(window, model);
       pcontroller.registerEvents();
+      pcontroller.registerCommands();
       window.setVisible(true);
   }
 

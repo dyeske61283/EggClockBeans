@@ -6,6 +6,10 @@
 
 package task9drawing.Controller;
 
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.swing.JOptionPane;
 import task9drawing.Model.DrawingModel;
 
 /**
@@ -26,7 +30,20 @@ public class CommandPrint implements CommandInterface
   @Override
   public void execute()
   {
-    
+    HashPrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+      PrinterJob pj = PrinterJob.getPrinterJob();
+      pj.setPrintable(this.view.getDrawingView());
+      try
+      {
+        if(pj.printDialog(aset))
+        {
+          pj.print(aset);
+        }
+      }
+      catch(PrinterException pe)
+      {
+        JOptionPane.showMessageDialog(this.view,pe);
+      }
   }
 
 }
